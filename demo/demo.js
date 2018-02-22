@@ -7,7 +7,8 @@ import {
   ScrollView,
   StyleSheet,
   Platform,
-  Text
+  Text,
+  Dimensions
 } from "react-native";
 import Svg from "react-native-svg";
 import {
@@ -30,7 +31,9 @@ import {
   VictoryPie,
   VictoryLabel,
   VictoryLegend,
-  createContainer
+  createContainer,
+  VictoryPortal,
+  Bar
 } from "victory-native";
 
 import { VictoryTheme } from "victory-core";
@@ -107,7 +110,7 @@ const legendData = [{
   }
 }];
 
-const legendStyle = { parent: { marginBottom: 20 } };
+const legendStyle = { border: { stroke: "black" } };
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
@@ -183,17 +186,21 @@ export default class Demo extends Component {
         <Text style={styles.text}>{"Victory"}</Text>
         <Text style={styles.text}>{"Native"}</Text>
         <Text style={styles.text}>{"Demo\n"}</Text>
-
-        <VictoryLegend
-          data={legendData}
-          style={legendStyle}
-        />
-        <VictoryLegend
-          data={legendData}
-          itemsPerRow={4}
-          orientation="horizontal"
-          style={legendStyle}
-        />
+        <Svg width={Dimensions.get("window").width} height={300}>
+          <VictoryLegend
+            x={5} y={10}
+            standalone={false}
+            data={legendData}
+            style={legendStyle}
+          />
+          <VictoryLegend
+            x={5} y={200}
+            data={legendData}
+            standalone={false}
+            itemsPerRow={3}
+            style={legendStyle}
+          />
+        </Svg>
 
         <VictoryChart polar theme={VictoryTheme.material}>
           <VictoryBar
@@ -543,7 +550,7 @@ export default class Demo extends Component {
             { x: 5, y: 5 }
           ]}
           interpolation="cardinal"
-          labels="LINE"
+          labels={() => "LINE"}
           style={{
             data: {
               stroke: "#822722",
@@ -942,6 +949,28 @@ export default class Demo extends Component {
               }
             ]}
           />
+        </VictoryChart>
+        <VictoryChart
+          events={[
+            {
+              childName: "bar",
+              target: "data",
+              eventHandlers: {
+                onPressIn: () => {
+                  return [
+                    {
+                      mutation: () => {
+                        return { style: { fill: "orange" } };
+                      }
+                    }
+                  ];
+                }
+              }
+            }
+          ]}
+        >
+          <VictoryBar name="bar" dataComponent={<VictoryPortal><Bar/></VictoryPortal>}/>
+          <VictoryAxis tickFormat={["one", "two", "three", "four"]}/>
         </VictoryChart>
       </ScrollView>
     );

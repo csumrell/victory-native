@@ -1,11 +1,12 @@
 {
   "name": "victory-native",
-  "version": "0.14.0",
+  "version": "0.17.1",
   "description": "Shared libraries and components for Victory",
   "main": "lib/index.js",
   "files": [
     "lib",
-    "index.js"
+    "index.js",
+    "LICENSE.txt"
   ],
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
   },
   "homepage": "https://github.com/FormidableLabs/victory-native#readme",
   "scripts": {
-    "start": "./node_modules/react-native/packager/packager.sh start --reset-cache --projectRoots `pwd`,`pwd`/demo",
+    "start": "./node_modules/react-native/scripts/packager.sh start --reset-cache",
     "demo:ios": "react-native run-ios --project-path demo/ios",
     "lint": "eslint test/spec/**/*.js lib/**/*.js demo/**/*.js",
     "test": "mocha --compilers test/compiler.js --recursive test/spec/*.js"
@@ -31,27 +32,26 @@
     "babel-preset-react-native": "^1.9.0",
     "babel-register": "^6.11.6",
     "chai": "^3.5.0",
-    "enzyme": "^2.8.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^2.0.0",
     "eslint-config-formidable": "^2.0.1",
     "eslint-plugin-filenames": "^1.2.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.3",
     "mocha": "^3.0.2",
-    "react": "16.0.0-alpha.12",
-    "react-addons-test-utils": "^15.5.1",
-    "react-dom": "16.0.0-alpha.12",
-    "react-native": "~0.45.0",
-    "react-native-mock": "^0.3.1",
-    "react-native-svg": "~5.2.0",
-    "react-native-svg-mock": "^1.1.0",
-    "react-test-renderer": "16.0.0-alpha.12"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-native": "~0.51.0",
+    "react-native-svg": "^6.1.0",
+    "react-native-svg-mock": "^2.0.0",
+    "react-test-renderer": "^16.2.0"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "prop-types": "^15.5.10",
-    "victory-chart": "^21.3.0",
-    "victory-core": "^16.3.0",
-    "victory-pie": "^11.3.0"
+    "victory-chart": "^25.1.0",
+    "victory-core": "^21.0.4",
+    "victory-pie": "^14.0.0"
   }
 }

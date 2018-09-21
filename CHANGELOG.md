@@ -1,5 +1,108 @@
 # VictoryNative Changelog
 
+## 30.4.0 (2018-08-24)
+
+-[378](https://github.com/FormidableLabs/victory-native/pull/378) - Adds `disableContainerEvents` prop for all native container components
+
+## 30.3.0 (2018-08-24)
+
+- [victory/#1088](https://github.com/FormidableLabs/victory/pull/1088) - Bugfix: don’t ignore angle: 0 for text styles
+- [victory/#1091](https://github.com/FormidableLabs/victory/pull/1091) - Fix inconsistent defaultBrushArea behavior. Thanks @bees
+- [victory/#1093](https://github.com/FormidableLabs/victory/pull/1093) - Remove trailing whitespace and incorrect zeroes in transform strings
+- [victory/#1094](https://github.com/FormidableLabs/victory/pull/1094) - Support  direction prop for VictoryLabel and Text primitive
+- [victory/#1096](https://github.com/FormidableLabs/victory/pull/1096) - Fix bug in horizontal zooming and panning
+- [victory/#1101](https://github.com/FormidableLabs/victory/pull/1101) - Fix arguments in `VictoryVoronoiContainer` label function. Thanks @evsheino
+
+## 30.1.0 (2018-07-27)
+
+-[354](https://github.com/FormidableLabs/victory-native/pull/354)
+  - Updates Victory dependencies to `30.1.0`
+  - Supports `react-native-svg^6.5.0`
+
+## 30.0.0 (2018-07-23)
+
+- Updates all `victory-*` dependencies to use `30.0.0` versions, including new, more modular packages.
+Please see [Victory's Changelog](https://github.com/FormidableLabs/victory/blob/master/CHANGELOG.md#3000-2018-07-17) for details, and [this blog post](https://formidable.com/blog/2018/victory-is-turning-thirty/) for versioning rationale
+- Upgrades `victory-native` for compatibility with `react-native@0.56.0`
+
+Associated Pull Requests:
+-[347](https://github.com/FormidableLabs/victory-native/pull/347) updates test and demo infrastructure to work with `react-native@0.56.0`
+-[346](https://github.com/FormidableLabs/victory-native/pull/346) refactors and simplifies native container mixins, and enforces consistency for imports
+-[343](https://github.com/FormidableLabs/victory-native/pull/343) updates all `victory-*` dependencies and updates infrastructure to babel 7
+
+## 0.18.2 (2018-06-22)
+
+VictoryCore
+-[390](https://github.com/FormidableLabs/victory-core/pull/390) *Breaking Change for other Victory packages*
+This PR changes how the exported helper `reduceChildren` operates, and removes `getDomainFromGroupedData`
+-[392](https://github.com/FormidableLabs/victory-core/pull/392) Make sure transforms are applied to primitive components
+
+VictoryChart
+-[555](https://github.com/FormidableLabs/victory-chart/pull/555) Refactors how `VictoryStack` and `VictoryGroup` interact with child data. Fixes bugs related to stacked and grouped charts in `VictoryVoronoiContainer`
+
+
+## 0.18.1 (2018-06-13)
+
+-[322](https://github.com/FormidableLabs/victory-native/pull/322) Use `Dimension.get("window").width` to set the default `width` and `height` for `VictoryPie`
+
+## 0.18.0 (2018-06-06)
+
+**Breaking Changes**
+- Refactors utility methods. This is an internal breaking change, but should not be a breaking change for most Victory users. See [victory-core/380](https://github.com/FormidableLabs/victory-core/pull/380) for details
+
+- Upgrades to `react-fast-compare@^2.0.0` which changes function comparison. This means that Victory components _will_ update when functions are not equal. This closes several Victory issues, but may cause a slight performance decline
+
+- Disable arbitrary styles from data
+This change deprecates Victory's ability to automatically pick up style attributes from the data object. This change will improve performance, but will be a breaking change for many users. Fortunately the upgrade path is simple:
+
+If your data object looks like
+```
+data={[
+  { x: 1, y: 1, fill: "red", opacity: 0.2 },
+  ...
+]}
+```
+Add the following functional styles:
+```
+style={{ data:  { fill: (d) => d.fill, opacity: (d) => d.opacity } }}
+```
+and everything will work as before.
+
+- Limit Pre-calculating label props
+Base props for labels will no longer be pre-calculated unless a labels prop exists. This change improves performance, but it will be a breaking change for users who were using events for adding labels to elements that did not already have them using an event mutation like:
+
+```
+events={[{
+  target: "data",
+  eventHandlers: {
+    onClick: () => {
+      return [{ target: "labels", mutation: () => ({ text: "clicked" }) }];
+    }
+  }
+}]}
+```
+If you are using this pattern, you can make labels work as expected by adding a dummy labels prop like: `labels={() => null}`
+
+Note: This change _does not_ affect tooltips, which exist, but are invisible until they receive the `active` prop
+
+**New Features**
+- Adds `minDomain` and `maxDomain` props. These props may be used to set one edge of a domain while allowing the other edge to be determined by data or other props. `minDomain` and `maxDomain` override `domainPadding`.
+- Adds `singleQuadrantDomainPadding` prop. This prop may be given as a boolean or an object with boolean values for x and y. When this prop is set to `false` for a given dimension, any `domainPadding` applied in that dimension will _not_ be constrained to existing quadrants.
+- Support top and bottom cornerRadius for bars. Support functional cornerRadius
+`defaultBrushArea` prop with supported options "all", "none" and "disable"
+
+## 0.17.4 (2018-04-01)
+
+-[292](https://github.com/FormidableLabs/victory-native/pull/292) Fixes a bug with polar line and area chart rendering
+
+## 0.17.3 (2018-03-28)
+
+-[289](https://github.com/FormidableLabs/victory-native/pull/289) Add `VictoryBoxPlot`
+
+## 0.17.2 (2018-03-14)
+
+-[277](https://github.com/FormidableLabs/victory-native/pull/277) Fixes a naming bug in `VictoryZoomContainer`
+
 ## 0.17.1 (2018-02-12)
 
 -[258](https://github.com/FormidableLabs/victory-native/pull/258) Support `disable` prop on container components

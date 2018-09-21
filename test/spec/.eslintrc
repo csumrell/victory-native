@@ -1,6 +1,0 @@
----
-"extends":
-  - "formidable/configurations/es6-react-test"
-
-"rules":
-  "no-magic-numbers": 0
